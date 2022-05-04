@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Botao from "../utils/Botao";
 import Paragrafo from "../utils/Paragrafo";
@@ -7,11 +7,17 @@ import { Container } from "./style.js";
 
 function TelaLogin() {
     const arrayInputs = ['E-mail', 'Senha'];
+    const navigate = useNavigate();
+
+    function enviarDados(event){
+        event.preventDefault();
+        navigate('/carteira')
+    }
 
     return ( 
         <Container>
             <header>MyWallet</header>
-            <form>
+            <form onSubmit={enviarDados}>
                 <div className="inputs">
                     <input type="text" placeholder={arrayInputs[0]} />
                     <input type="text" placeholder={arrayInputs[1]} />
