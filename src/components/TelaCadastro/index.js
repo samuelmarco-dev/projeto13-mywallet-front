@@ -1,5 +1,11 @@
+
+
 function TelaCadastro() {
-    return ( <>Sou o cadastro</> );
+    return ( 
+        <>
+            Sou o cadastro
+        </> 
+    );
 }
 
 export default TelaCadastro;

@@ -1,8 +1,8 @@
+import { Link } from "react-router-dom";
+
 import AnimacaoSvg from "./svg.js";
 import Botao from "../utils/Botao.js";
 import Paragrafo from "../utils/Paragrafo.js";
-
-import { Link } from "react-router-dom";
 
 import { AiFillBank } from "react-icons/ai";
 import { Container } from "./style.js";

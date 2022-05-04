@@ -7,8 +7,6 @@ export const Container = styled.section`
     top: 0;
     left: 0;
     background-color: #8C11BE;
-    /* font-family: 'Raleway', sans-serif;
-    font-family: 'Saira Stencil One', cursive; */
 
     header{
         width: 100%;
