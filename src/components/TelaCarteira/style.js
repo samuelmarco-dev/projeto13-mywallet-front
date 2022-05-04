@@ -44,7 +44,37 @@ export const Container = styled.section`
         height: calc(100% - 140px - 65px - 20px);
         margin-top: 20px;
         background-color: #FFFFFF;
+        position: relative;
 
+        nav{
+            width: 100%;
+            height: calc(100% - 30px);
+            padding: 0 13px;
+            overflow: scroll;
+            
+            .registro{
+                width: 100%;
+                height: 30px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 19px;
+                margin-bottom: 5px;
+                
+                span{color: #C6C6C6;}
+
+                p{
+                    width: 140px;
+                    max-width: 150px;
+                    max-height: 30px;
+                    overflow: hidden;
+                    text-align: center;
+                    color: #000000;
+                }
+            }
+        }
 
         .not-registros{
             width: 100%;
@@ -64,7 +94,39 @@ export const Container = styled.section`
                 overflow: hidden;
             }
         }
+
+        .result{
+            width: 100%;
+            height: 20px;
+            position: absolute;
+            left: 0;
+            bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 13px;
+
+            .saldo{
+                font-weight: 700;
+                font-size: 17px;
+                line-height: 20px;
+                text-align: left;
+                color: #000000;
+            }
+
+            .valor{
+                font-family: Raleway;
+                font-size: 17px;
+                font-weight: 400;
+                line-height: 20px;
+                letter-spacing: 0em;
+                text-align: right;
+            }
+        }
     }
+
+    .positivo{color: #03AC00;}
+    .negativo{color: #C70000;}
 
     footer{
         width: 100%;
