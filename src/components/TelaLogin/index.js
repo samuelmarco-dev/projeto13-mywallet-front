@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Botao from "../utils/Botao";
 import Paragrafo from "../utils/Paragrafo";
 
-import { Container } from "./style";
+import { Container } from "./style.js";
 
 function TelaLogin() {
     const arrayInputs = ['E-mail', 'Senha'];
