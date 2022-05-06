@@ -14,12 +14,13 @@ import "./../assets/css/reset.css";
 
 function App() {
     const [entradaSaida, setEntradaSaida] = useState(null);
+    const [emailUsuario, setEmailUsuario] = useState(null);
     const [nomeUsuario, setNomeUsuario] = useState(null);
     const [tokenUsuario, setTokenUsuario] = useState(null);
 
     return (
         <ContextoDadosUsuario.Provider value={{nomeUsuario, setNomeUsuario, tokenUsuario, setTokenUsuario}}>
-            <ContextoEntradaSaida.Provider value={{entradaSaida, setEntradaSaida}}>
+            <ContextoEntradaSaida.Provider value={{entradaSaida, setEntradaSaida, emailUsuario, setEmailUsuario}}>
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={< TelaInicial />} />

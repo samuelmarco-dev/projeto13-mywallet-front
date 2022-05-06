@@ -6,19 +6,27 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 
 import ContextoEntradaSaida from "../context/EntradaSaida.js";
+import ContextoDadosUsuario from "../context/DadosUsuario.js";
 
 import { Container } from "./style.js"
 
 function TelaCarteira() {
-    const dados = 1;
+    const dados = 0;
 
     const navigate = useNavigate();
-    const { setEntradaSaida } = useContext(ContextoEntradaSaida);
+    const { setEntradaSaida, emailUsuario } = useContext(ContextoEntradaSaida);
+    const { nomeUsuario, tokenUsuario } = useContext(ContextoDadosUsuario);
+
+    console.log(nomeUsuario, tokenUsuario, emailUsuario);
+
+    function nomeProprio(nomeProprio) {
+        return `Olá, ${nomeProprio.charAt(0).toUpperCase() + nomeProprio.slice(1)}`;
+    }
 
     return ( 
         <Container>
             <header>
-                <p>Olá, Fulano</p>
+                <p>{nomeProprio(!nomeUsuario ? localStorage.getItem('name') : nomeUsuario)}</p>
                 <IoIosLogOut className="icon" onClick={()=> navigate('/')}/>
             </header>
             <main>

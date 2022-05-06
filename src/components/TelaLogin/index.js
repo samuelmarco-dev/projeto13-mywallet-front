@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import ContextoDadosUsuario from "../context/DadosUsuario";
+import ContextoEntradaSaida from "../context/EntradaSaida";
 import swal from "sweetalert";
 
 import Botao from "../utils/Botao";
@@ -16,6 +17,7 @@ function TelaLogin() {
 
     const navigate = useNavigate();
     const { setNomeUsuario, setTokenUsuario} = useContext(ContextoDadosUsuario);
+    const { setEmailUsuario } = useContext(ContextoEntradaSaida)
     const [dadosLogin, setDadosLogin] = useState({
         email: '', password: ''
     });
@@ -37,8 +39,10 @@ function TelaLogin() {
             setTimeout(() => {
                 const { data } = response;
                 setNomeUsuario(data.name);
+                setEmailUsuario(dadosLogin.email);
                 setTokenUsuario(data.token);
                 localStorage.setItem('name', data.name);
+                localStorage.setItem('email', dadosLogin.email);
                 localStorage.setItem('token', data.token);
                 navigate('/carteira');
             }, 1200);
