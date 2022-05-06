@@ -38,11 +38,12 @@ function TelaCadastro() {
                 swal(`Status: ${response.status}! Cadastro realizado com sucesso!`); 
                 limparDados();
                 navigate('/login');
-            } , 1500);
+            } , 1200);
         }).catch((err) => {
             setTimeout(() => {
                 setDisable(false);
                 setLoading(false);
+
                 if(typeof(err.response.data) === 'string'){
                     swal(`Status: ${err.response.status}! Erro ao cadastrar usuário!`, err.response.data);
                     setDadosCadastro({...dadosCadastro, name: ''});

@@ -48,6 +48,7 @@ export const Container = styled.section`
             color: #000000;
             text-align: left;
             border: none;
+            background-color: #FFFFFF;
         }
     }
 
@@ -69,6 +70,9 @@ export const Container = styled.section`
             font-size: 20px;
             line-height: 23px;
             color: #FFFFFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     }
 

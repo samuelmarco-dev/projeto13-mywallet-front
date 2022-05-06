@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 
 import ContextoEntradaSaida from "./context/EntradaSaida.js";
+import ContextoDadosUsuario from "./context/DadosUsuario.js";
 
 import TelaInicial from "./TelaInicial";
 import TelaLogin from "./TelaLogin";
@@ -13,19 +14,23 @@ import "./../assets/css/reset.css";
 
 function App() {
     const [entradaSaida, setEntradaSaida] = useState(null);
+    const [nomeUsuario, setNomeUsuario] = useState(null);
+    const [tokenUsuario, setTokenUsuario] = useState(null);
 
     return (
-        <ContextoEntradaSaida.Provider value={{entradaSaida, setEntradaSaida}}>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={< TelaInicial />} />
-                    <Route path="/login" element={<TelaLogin />} />
-                    <Route path="/cadastro" element={< TelaCadastro />} />
-                    <Route path="/carteira" element={<TelaCarteira />} />
-                    <Route path="/enviarDados" element={<TelaDados />} />
-                </Routes>
-            </BrowserRouter>
-        </ContextoEntradaSaida.Provider>
+        <ContextoDadosUsuario.Provider value={{nomeUsuario, setNomeUsuario, tokenUsuario, setTokenUsuario}}>
+            <ContextoEntradaSaida.Provider value={{entradaSaida, setEntradaSaida}}>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={< TelaInicial />} />
+                        <Route path="/login" element={<TelaLogin />} />
+                        <Route path="/cadastro" element={< TelaCadastro />} />
+                        <Route path="/carteira" element={<TelaCarteira />} />
+                        <Route path="/enviarDados" element={<TelaDados />} />
+                    </Routes>
+                </BrowserRouter>
+            </ContextoEntradaSaida.Provider>
+        </ContextoDadosUsuario.Provider>
     );
 }
 
