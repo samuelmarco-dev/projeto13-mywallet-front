@@ -4,8 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 
 import Botao from "../utils/Botao.js";
 import Paragrafo from "../utils/Paragrafo.js";
+import swal from 'sweetalert';
 
-import { Container } from "./style.js"
+import { ThreeDots } from 'react-loader-spinner';
+import { Container } from "./style.js";
 
 function TelaCadastro() {
     const arrayInputs = ['Nome', 'E-mail', 'Senha', 'Confirme a senha'];
@@ -14,22 +16,58 @@ function TelaCadastro() {
     const [dadosCadastro, setDadosCadastro] = useState({
         name: '', email: '', password: '', passwordConfirm: ''
     });
-    console.log(dadosCadastro);
+    const [disable, setDisable] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    async function postDadosCadastro() {
-        try{
-            const post = await axios.post('http://localhost:27017/cadastro', dadosCadastro);
-            console.log(post);
-            navigate('/login');
-        }
-        catch(error){
-            console.log(error);
-        }    
+    function limparDados() {
+        setDadosCadastro({
+            name: '', email: '', password: '', passwordConfirm: ''
+        });
+    }
+
+    function postDadosCadastro() {
+        const objetoCadastro = {
+            name: (dadosCadastro.name).trim(), email: dadosCadastro.email, password: dadosCadastro.password
+        };
+        setDisable(true);
+        setLoading(true);
+
+        const promise = axios.post('http://localhost:5000/sign-up', objetoCadastro);
+        promise.then((response) => {
+            setTimeout(() => {
+                swal(`Status: ${response.status}! Cadastro realizado com sucesso!`); 
+                limparDados();
+                navigate('/login');
+            } , 1500);
+        }).catch((err) => {
+            setTimeout(() => {
+                setDisable(false);
+                setLoading(false);
+                if(typeof(err.response.data) === 'string'){
+                    swal(`Status: ${err.response.status}! Erro ao cadastrar usuário!`, err.response.data);
+                    setDadosCadastro({...dadosCadastro, name: ''});
+                }
+                if(typeof(err.response.data) === 'object'){
+                    (err.response.data).forEach(element => {
+                        alert(element);
+                    });
+                    limparDados();
+                }
+                if(typeof(err.response.data) !== 'object' && typeof(err.response.data) !== 'string'){
+                    swal(`Status: ${err.response.status}! Erro ao cadastrar usuário!`);
+                }
+            } , 1000);
+        });
     }
 
     function enviarCadastro(event){
         event.preventDefault();
-        postDadosCadastro();
+        if(dadosCadastro.password === dadosCadastro.passwordConfirm){
+            postDadosCadastro();
+        }else{
+            swal("Há divergência entre as senhas!");
+            setDadosCadastro({...dadosCadastro, passwordConfirm: ''});
+        }
     }
 
     return ( 
@@ -37,17 +75,20 @@ function TelaCadastro() {
             <header>MyWallet</header>
             <form onSubmit={enviarCadastro}>
                 <div className="inputs">
-                    <input type="text" placeholder={arrayInputs[0]} value={dadosCadastro.name} required
+                    <input type="text" placeholder={arrayInputs[0]} value={dadosCadastro.name} required disabled={disable}
                     onChange={(e)=>setDadosCadastro({...dadosCadastro, name: e.target.value})}/>
-                    <input type="text" placeholder={arrayInputs[1]} value={dadosCadastro.email} required
+                    <input type="email" placeholder={arrayInputs[1]} value={dadosCadastro.email} required disabled={disable}
                     onChange={(e)=>setDadosCadastro({...dadosCadastro, email: e.target.value})}/>
-                    <input type="text" placeholder={arrayInputs[2]} value={dadosCadastro.password} required
+                    <input type="password" placeholder={arrayInputs[2]} value={dadosCadastro.password} required disabled={disable}
                     onChange={(e)=>setDadosCadastro({...dadosCadastro, password: e.target.value})}/>
-                    <input type="text" placeholder={arrayInputs[3]} value={dadosCadastro.passwordConfirm} required
+                    <input type="password" placeholder={arrayInputs[3]} value={dadosCadastro.passwordConfirm} required disabled={disable}
                     onChange={(e)=>setDadosCadastro({...dadosCadastro, passwordConfirm: e.target.value})}/>
                 </div>
                 <div className="botao">
-                    <Botao conteudo="Cadastrar" />
+                    {
+                        loading ?  <Botao conteudo={<ThreeDots color="#fff" height={13} />} tipo="submit" disabled={disable} /> 
+                        : <Botao tipo="submit" conteudo="Cadastrar" disable={disable} />
+                    }
                 </div>
             </form>
             <Link to="/login">
