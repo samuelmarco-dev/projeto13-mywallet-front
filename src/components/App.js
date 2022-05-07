@@ -23,11 +23,11 @@ function App() {
             <ContextoEntradaSaida.Provider value={{entradaSaida, setEntradaSaida, emailUsuario, setEmailUsuario}}>
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/" element={< TelaInicial />} />
-                        <Route path="/login" element={<TelaLogin />} />
-                        <Route path="/cadastro" element={< TelaCadastro />} />
-                        <Route path="/carteira" element={<TelaCarteira />} />
-                        <Route path="/enviarDados" element={<TelaDados />} />
+                        <Route path="/" element={< TelaInicial />}/>
+                        <Route path="/login" element={<TelaLogin />}/>
+                        <Route path="/cadastro" element={< TelaCadastro />}/>
+                        <Route path="/carteira" element={<TelaCarteira />}/>
+                        <Route path="/enviarDados" element={<TelaDados />}/>
                     </Routes>
                 </BrowserRouter>
             </ContextoEntradaSaida.Provider>
