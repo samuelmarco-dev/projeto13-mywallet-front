@@ -88,7 +88,7 @@ function TelaCadastro() {
                 <div className="botao">
                     {
                         loading ?  <Botao conteudo={<ThreeDots color="#fff" height={13} />} tipo="submit" disabled={disable} /> 
-                        : <Botao tipo="submit" conteudo="Cadastrar" disable={disable} />
+                        : <Botao tipo="submit" conteudo="Cadastrar" disabled={disable} />
                     }
                 </div>
             </form>

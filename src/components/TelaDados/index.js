@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import ContextoEntradaSaida from "../context/EntradaSaida.js";
@@ -7,27 +7,34 @@ import ContextoDadosUsuario from "../context/DadosUsuario.js";
 
 import Paragrafo from "../utils/Paragrafo.js";
 import Botao from "../utils/Botao.js";
+import swal from "sweetalert";
 
+import { ThreeDots } from 'react-loader-spinner';
 import { Container } from "./style.js"
 
 function TelaDados() {
     const arrayInputs = ['Valor', 'Descrição'];
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const { emailUsuario, entradaSaida } = useContext(ContextoEntradaSaida);
     const { nomeUsuario, tokenUsuario } = useContext(ContextoDadosUsuario);
 
     const [novoDado, setNovoDado] = useState({
         description: '',  value: ''
     });
+    const [disable, setDisable] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    // function limparDados(){
-    //     setNovoDado({
-    //         description: '',  value: ''
-    //     });
-    // }
+    function limparDados(){
+        setNovoDado({
+            description: '',  value: ''
+        });
+    }
 
     function postDadosCapital(){
+        setDisable(true);
+        setLoading(true);
+
         let endpoint = null;
         
         if(entradaSaida === 'entrada' || localStorage.getItem('item') === 'entrada'){
@@ -52,11 +59,38 @@ function TelaDados() {
 
         console.log(endpoint);
         console.log(objetoReceita);
+        
+        if(!endpoint){
+            swal('Não foi possível realizar a operação, faça login novamente!');
+            setTimeout(() => { navigate('/login'); }, 1000);
+        }
         const promise = axios.post(endpoint, objetoReceita, config);
         promise.then((response)=>{
-            console.log(response);
+            setTimeout(() => {
+                swal(`Status: ${response.status}! Dados cadastrados com sucesso`)
+                navigate('/carteira');
+            }, 1200);
         }).catch((err)=>{
-            console.log(err);
+            setTimeout(() => {
+                setDisable(false);
+                setLoading(false);
+
+                if(typeof(err.response.data) === 'string'){
+                    swal(`Status: ${err.response.status}! Erro ao postar dados de 
+                    ${entradaSaida ? entradaSaida : localStorage.getItem('info')}!`, err.response.data);
+                    limparDados();
+                }
+                if(typeof(err.response.data) === 'object'){
+                    (err.response.data).forEach(element => {
+                        alert(element);
+                    });
+                    limparDados();
+                }
+                if(typeof(err.response.data) !== 'object' && typeof(err.response.data) !== 'string'){
+                    swal(`Status: ${err.response.status}! Erro ao fazer postar dados de 
+                    ${entradaSaida ? entradaSaida : localStorage.getItem('info')}!`);
+                }
+            }, 1000);
         });
     }   
 
@@ -68,14 +102,17 @@ function TelaDados() {
             </header>
             <article>
                 <div className="inputs">
-                    <input type="text" placeholder={arrayInputs[0]} value={novoDado.value}
+                    <input type="text" placeholder={arrayInputs[0]} value={novoDado.value} disabled={disable}
                     onChange={(e)=>setNovoDado({...novoDado, value: e.target.value})} />
-                    <input type="text" placeholder={arrayInputs[1]} value={novoDado.description}
+                    <input type="text" placeholder={arrayInputs[1]} value={novoDado.description} disabled={disable}
                     onChange={(e)=>setNovoDado({...novoDado, description: e.target.value})} />
                 </div>
                 <div className="botao">
-                    <Botao conteudo={entradaSaida === 'entrada' ? 'Salvar entrada' : 'Salvar saída'} 
-                    click={()=>postDadosCapital()}/>
+                    {
+                        loading ? <Botao conteudo={<ThreeDots color="#fff" height={13} />} disabled={disable} />
+                        : <Botao conteudo={(entradaSaida === 'entrada' || localStorage.getItem('info') === 'entrada') ? 
+                        'Salvar entrada' : 'Salvar saída'} click={()=>postDadosCapital()} disabled={disable} />
+                    }
                 </div>
             </article>
         </Container>
