@@ -31,9 +31,14 @@ function TelaDados() {
         });
     }
 
-    function postDadosCapital(){
+    function postDadosCapital(event){
+        event.preventDefault();
         setDisable(true);
         setLoading(true);
+
+        if(novoDado.value.includes(',')){
+            novoDado.value = novoDado.value.replace(',', '.');
+        }
 
         let endpoint = null;
         
@@ -101,19 +106,23 @@ function TelaDados() {
                 'Nova entrada' : 'Nova saída'} />
             </header>
             <article>
-                <div className="inputs">
-                    <input type="text" placeholder={arrayInputs[0]} value={novoDado.value} disabled={disable}
-                    onChange={(e)=>setNovoDado({...novoDado, value: e.target.value})} />
-                    <input type="text" placeholder={arrayInputs[1]} value={novoDado.description} disabled={disable}
-                    onChange={(e)=>setNovoDado({...novoDado, description: e.target.value})} />
-                </div>
-                <div className="botao">
-                    {
-                        loading ? <Botao conteudo={<ThreeDots color="#fff" height={13} />} disabled={disable} />
-                        : <Botao conteudo={(entradaSaida === 'entrada' || localStorage.getItem('info') === 'entrada') ? 
-                        'Salvar entrada' : 'Salvar saída'} click={()=>postDadosCapital()} disabled={disable} />
-                    }
-                </div>
+                <form onSubmit={postDadosCapital}>
+                    <div className="inputs">
+                        <input type="number" placeholder={arrayInputs[0]} value={novoDado.value} disabled={disable}
+                        pattern={/^[0-9]{0,}[.|,]{0,1}[0-9]{0,6}$/} min="1" required step="any"
+                        onChange={(e)=>setNovoDado({...novoDado, value: e.target.value})} />
+                        <input type="text" placeholder={arrayInputs[1]} value={novoDado.description} disabled={disable}
+                        required onChange={(e)=>setNovoDado({...novoDado, description: e.target.value})} />
+                    </div>
+                    <div className="botao">
+                        {
+                            loading ? <Botao conteudo={<ThreeDots color="#fff" height={13} />} disabled={disable} />
+                            : <Botao conteudo={(entradaSaida === 'entrada' || localStorage.getItem('info') === 'entrada') ? 
+                            'Salvar entrada' : 'Salvar saída'} disabled={disable} tipo="submit" />
+                        }
+                    </div>
+                </form>
+                <Paragrafo conteudo={'Voltar para a carteira'} click={()=> navigate('/carteira')}/>
             </article>
         </Container>
     );

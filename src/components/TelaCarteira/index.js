@@ -1,5 +1,6 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 import { IoIosLogOut } from "react-icons/io";
 import { IoIosAddCircleOutline } from "react-icons/io";
@@ -8,14 +9,16 @@ import { IoIosRemoveCircleOutline } from "react-icons/io";
 import ContextoEntradaSaida from "../context/EntradaSaida.js";
 import ContextoDadosUsuario from "../context/DadosUsuario.js";
 
+import swal from "sweetalert";
 import { Container } from "./style.js"
 
 function TelaCarteira() {
-    const dados = 0;
+    let saldo = 0;
 
     const navigate = useNavigate();
-    const { setEntradaSaida, emailUsuario } = useContext(ContextoEntradaSaida);
-    const { nomeUsuario, tokenUsuario } = useContext(ContextoDadosUsuario);
+    const { setEntradaSaida, emailUsuario, setEmailUsuario } = useContext(ContextoEntradaSaida);
+    const { nomeUsuario, tokenUsuario, setNomeUsuario, setTokenUsuario } = useContext(ContextoDadosUsuario);
+    const [dadosCarteira, setDadosCarteira] = useState([]);
 
     console.log(nomeUsuario, tokenUsuario, emailUsuario);
 
@@ -23,46 +26,107 @@ function TelaCarteira() {
         return `Olá, ${nomeProprio.charAt(0).toUpperCase() + nomeProprio.slice(1)}`;
     }
 
+    function saldoCarteiraUsuario(array){
+        if(array.length > 0){
+            array.forEach(element => {
+                const valor = Number(element.value);
+                if(element.type === 'entrada'){
+                    saldo += valor;
+                }
+                if(element.type === 'saida'){
+                    saldo -= valor;
+                }
+            });
+        } else{
+            saldo = 0;
+        }
+        return saldo.toFixed(2).replace('.', ',');
+    }
+
+    function buscarDadosCarteira() {
+        const objConfig = {
+            headers: 
+                {
+                    Authorization: `Bearer ${tokenUsuario ? tokenUsuario : localStorage.getItem('token')}`,
+                    email: emailUsuario ? emailUsuario : localStorage.getItem('email')
+                }
+        };
+        axios.get('http://localhost:5000/wallet', objConfig)
+        .then(res => {
+            console.log(res.data);
+            setDadosCarteira(res.data);
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    function retornaParaHome() {
+        swal({
+            title: "Deseja sair?",
+            text: "Você será redirecionado para a página inicial.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('name');
+                localStorage.removeItem('email');
+                localStorage.removeItem('info');
+                setEntradaSaida(null);
+                setEmailUsuario(null);
+                setNomeUsuario(null);
+                setTokenUsuario(null);
+                navigate('/');
+            }
+        });
+    }
+
+    useEffect(() => {
+        if(tokenUsuario === null || localStorage.getItem('token') === null){
+            swal('Você precisa estar logado para acessar esta página.');
+            navigate('/login');
+        }
+        buscarDadosCarteira();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    console.log(dadosCarteira);
+
     return ( 
         <Container>
             <header>
-                <p>{nomeProprio(!nomeUsuario ? localStorage.getItem('name') : nomeUsuario)}</p>
-                <IoIosLogOut className="icon" onClick={()=> navigate('/')}/>
+                {
+                    (nomeUsuario || localStorage.getItem('name')) ? 
+                    <>
+                    <p>{nomeProprio(!nomeUsuario ? localStorage.getItem('name') : nomeUsuario)}</p>
+                    <IoIosLogOut className="icon" onClick={()=> retornaParaHome()} />
+                    </> : <></>
+                }
             </header>
             <main>
                 {
-                dados > 0 ? 
+                dadosCarteira.length > 0 ? 
                 <>
                     <nav>
-                        <div className="registro">
-                            <span>30/11</span>
-                            <p>Almoço Mãe</p>
-                            <strong className="negativo">39,90</strong>
-                        </div>
-                        <div className="registro">
-                            <span>27/11</span>
-                            <p>Mercado</p>
-                            <strong className="negativo">542,54</strong>
-                        </div>
-                        <div className="registro">
-                            <span>26/11</span>
-                            <p>Compras churrasco</p>
-                            <strong className="negativo">67,60</strong>
-                        </div>
-                        <div className="registro">
-                            <span>20/11</span>
-                            <p>Empréstimo Maria</p>
-                            <strong className="positivo">500,00</strong>
-                        </div>
-                        <div className="registro">
-                            <span>15/11</span>
-                            <p>Salário</p>
-                            <strong className="positivo">3000,00</strong>
-                        </div>
+                        {
+                            dadosCarteira.map(capital => {
+                                const { _id, type, description, value, date } = capital;
+                                const valor = Number(value);
+                                return (
+                                    <div className="registro" key={_id}>
+                                        <span>{date}</span>
+                                        <p>{description}</p>
+                                        <strong className={type === 'entrada' ? 'positivo' : 'negativo'}>{valor.toFixed(2).replace('.', ',')}</strong>
+                                    </div>
+                                )
+                            })
+                        }
                     </nav>
                     <p className="result">
                         <strong className="saldo">SALDO</strong>
-                        <strong className="valor positivo">2849,96</strong>
+                        <strong className="valor positivo">
+                            {saldoCarteiraUsuario(dadosCarteira)}
+                        </strong>
                     </p>
                 </>
                 : 

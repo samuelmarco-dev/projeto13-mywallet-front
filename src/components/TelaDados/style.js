@@ -77,4 +77,22 @@ export const Container = styled.section`
             align-items: center;
         }
     }
+
+    article {
+        height: 100%;
+        overflow: hidden;
+
+        p{
+            width: 100%;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            font-size: 15px;
+            line-height: 18px;
+            color: #FFFFFF;
+            margin-top: 14px;
+        }
+    }
 `;
