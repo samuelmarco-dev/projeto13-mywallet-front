@@ -98,7 +98,6 @@ function TelaCarteira() {
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    console.log(dadosCarteira);
 
     return ( 
         <Container>

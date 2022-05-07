@@ -26,7 +26,7 @@ function TelaDados() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if(entradaSaida === null || localStorage.getItem('info') === null){ 
+        if(entradaSaida === null || localStorage.getItem('info') === null || (tokenUsuario === null && localStorage.getItem('token') === null)){ 
             localStorage.removeItem('token');
             localStorage.removeItem('name');
             localStorage.removeItem('email');
@@ -86,9 +86,6 @@ function TelaDados() {
             }
         };
 
-        console.log(endpoint);
-        console.log(objetoReceita);
-        
         if(!endpoint || entradaSaida === null || localStorage.getItem('info') === null){
             swal('Não foi possível realizar a operação, faça login novamente!');
             setTimeout(() => { 
