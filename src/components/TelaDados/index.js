@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -16,8 +16,8 @@ function TelaDados() {
     const arrayInputs = ['Valor', 'Descrição'];
 
     const navigate = useNavigate();
-    const { emailUsuario, entradaSaida } = useContext(ContextoEntradaSaida);
-    const { nomeUsuario, tokenUsuario } = useContext(ContextoDadosUsuario);
+    const { emailUsuario, entradaSaida, setEntradaSaida, setEmailUsuario } = useContext(ContextoEntradaSaida);
+    const { nomeUsuario, tokenUsuario, setNomeUsuario, setTokenUsuario } = useContext(ContextoDadosUsuario);
 
     const [novoDado, setNovoDado] = useState({
         description: '',  value: ''
@@ -25,10 +25,34 @@ function TelaDados() {
     const [disable, setDisable] = useState(false);
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        if(entradaSaida === null || localStorage.getItem('info') === null){ 
+            localStorage.removeItem('token');
+            localStorage.removeItem('name');
+            localStorage.removeItem('email');
+            localStorage.removeItem('info');
+            setEntradaSaida(null);
+            setEmailUsuario(null);
+            setNomeUsuario(null);
+            setTokenUsuario(null);
+            setTimeout(() => {
+                swal('Sessão expirada, faça login novamente.');
+                navigate('/login');
+            } , 500);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     function limparDados(){
         setNovoDado({
             description: '',  value: ''
         });
+    }
+
+    function retornarParaTelaInicial(){
+        navigate('/carteira'); 
+        setEntradaSaida(null);
+        localStorage.removeItem('info');
     }
 
     function postDadosCapital(event){
@@ -65,14 +89,18 @@ function TelaDados() {
         console.log(endpoint);
         console.log(objetoReceita);
         
-        if(!endpoint){
+        if(!endpoint || entradaSaida === null || localStorage.getItem('info') === null){
             swal('Não foi possível realizar a operação, faça login novamente!');
-            setTimeout(() => { navigate('/login'); }, 1000);
+            setTimeout(() => { 
+                navigate('/login'); 
+            }, 2500);
         }
         const promise = axios.post(endpoint, objetoReceita, config);
         promise.then((response)=>{
             setTimeout(() => {
-                swal(`Status: ${response.status}! Dados cadastrados com sucesso`)
+                swal(`Status: ${response.status}! Dados cadastrados com sucesso`);
+                setEntradaSaida(null);
+                localStorage.removeItem('info');
                 navigate('/carteira');
             }, 1200);
         }).catch((err)=>{
@@ -122,7 +150,7 @@ function TelaDados() {
                         }
                     </div>
                 </form>
-                <Paragrafo conteudo={'Voltar para a carteira'} click={()=> navigate('/carteira')}/>
+                <Paragrafo conteudo={'Voltar para a carteira'} click={()=> retornarParaTelaInicial()} />
             </article>
         </Container>
     );

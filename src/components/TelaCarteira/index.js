@@ -20,7 +20,6 @@ function TelaCarteira() {
     const { nomeUsuario, tokenUsuario, setNomeUsuario, setTokenUsuario } = useContext(ContextoDadosUsuario);
     const [dadosCarteira, setDadosCarteira] = useState([]);
 
-    console.log(nomeUsuario, tokenUsuario, emailUsuario);
 
     function nomeProprio(nomeProprio) {
         return `Olá, ${nomeProprio.charAt(0).toUpperCase() + nomeProprio.slice(1)}`;
@@ -40,7 +39,12 @@ function TelaCarteira() {
         } else{
             saldo = 0;
         }
-        return saldo.toFixed(2).replace('.', ',');
+
+        if (saldo > 0){
+            return saldo.toFixed(2).replace('.', ',');
+        }else{
+            return saldo.toFixed(2).replace('.', ',').replace('-', '');
+        }
     }
 
     function buscarDadosCarteira() {
@@ -53,10 +57,13 @@ function TelaCarteira() {
         };
         axios.get('http://localhost:5000/wallet', objConfig)
         .then(res => {
-            console.log(res.data);
             setDadosCarteira(res.data);
         }).catch(err => {
-            console.log(err);
+            if(err.response.status === 500){
+                swal('Erro interno do servidor, tente novamente mais tarde.');
+                navigate('/');
+            }
+            swal(`Status: ${err.response.status}! Erro ao buscar dados da carteira`);
         });
     }
 
@@ -83,11 +90,12 @@ function TelaCarteira() {
     }
 
     useEffect(() => {
-        if(tokenUsuario === null || localStorage.getItem('token') === null){
+        if(tokenUsuario === null && localStorage.getItem('token') === null){
             swal('Você precisa estar logado para acessar esta página.');
             navigate('/login');
+        }else{
+            buscarDadosCarteira();
         }
-        buscarDadosCarteira();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     console.log(dadosCarteira);
@@ -124,7 +132,7 @@ function TelaCarteira() {
                     </nav>
                     <p className="result">
                         <strong className="saldo">SALDO</strong>
-                        <strong className="valor positivo">
+                        <strong className={saldo > 0 ? 'valor positivo' : 'valor negativo'}>
                             {saldoCarteiraUsuario(dadosCarteira)}
                         </strong>
                     </p>

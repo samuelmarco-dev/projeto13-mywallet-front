@@ -86,9 +86,9 @@ function TelaLogin() {
             <form onSubmit={enviarDados}>
                 <div className="inputs">
                     <input type="email" placeholder={arrayInputs[0]} value={dadosLogin.email} required disabled={disable}
-                    onChange={(e)=>setDadosLogin({...dadosLogin, email: e.target.value})}/>
+                    onChange={(e)=>setDadosLogin({...dadosLogin, email: e.target.value})} />
                     <input type="password" placeholder={arrayInputs[1]} value={dadosLogin.password} required disabled={disable}
-                    onChange={(e)=>setDadosLogin({...dadosLogin, password: e.target.value})}/>
+                    onChange={(e)=>setDadosLogin({...dadosLogin, password: e.target.value})} />
                 </div>
                 <div className="botao">
                     {

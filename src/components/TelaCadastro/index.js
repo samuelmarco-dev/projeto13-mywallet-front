@@ -77,13 +77,13 @@ function TelaCadastro() {
             <form onSubmit={enviarCadastro}>
                 <div className="inputs">
                     <input type="text" placeholder={arrayInputs[0]} value={dadosCadastro.name} required disabled={disable}
-                    onChange={(e)=>setDadosCadastro({...dadosCadastro, name: e.target.value})}/>
+                    onChange={(e)=>setDadosCadastro({...dadosCadastro, name: e.target.value})} /> 
                     <input type="email" placeholder={arrayInputs[1]} value={dadosCadastro.email} required disabled={disable}
-                    onChange={(e)=>setDadosCadastro({...dadosCadastro, email: e.target.value})}/>
+                    onChange={(e)=>setDadosCadastro({...dadosCadastro, email: e.target.value})} />
                     <input type="password" placeholder={arrayInputs[2]} value={dadosCadastro.password} required disabled={disable}
-                    onChange={(e)=>setDadosCadastro({...dadosCadastro, password: e.target.value})}/>
+                    onChange={(e)=>setDadosCadastro({...dadosCadastro, password: e.target.value})} />
                     <input type="password" placeholder={arrayInputs[3]} value={dadosCadastro.passwordConfirm} required disabled={disable}
-                    onChange={(e)=>setDadosCadastro({...dadosCadastro, passwordConfirm: e.target.value})}/>
+                    onChange={(e)=>setDadosCadastro({...dadosCadastro, passwordConfirm: e.target.value})} />
                 </div>
                 <div className="botao">
                     {
