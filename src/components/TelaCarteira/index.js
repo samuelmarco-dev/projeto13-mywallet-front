@@ -92,6 +92,14 @@ function TelaCarteira() {
     useEffect(() => {
         if(tokenUsuario === null && localStorage.getItem('token') === null){
             swal('Você precisa estar logado para acessar esta página.');
+            localStorage.removeItem('token');
+            localStorage.removeItem('name');
+            localStorage.removeItem('email');
+            localStorage.removeItem('info');
+            setEntradaSaida(null);
+            setEmailUsuario(null);
+            setNomeUsuario(null);
+            setTokenUsuario(null);
             navigate('/login');
         }else{
             buscarDadosCarteira();
