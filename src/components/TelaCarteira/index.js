@@ -107,6 +107,7 @@ function TelaCarteira() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    console.log(dadosCarteira);
     return ( 
         <Container>
             <header>
@@ -124,7 +125,7 @@ function TelaCarteira() {
                 <>
                     <nav>
                         {
-                            dadosCarteira.map(capital => {
+                            dadosCarteira.reverse().map(capital => {
                                 const { _id, type, description, value, date } = capital;
                                 const valor = Number(value);
                                 return (

@@ -50,7 +50,7 @@ export const Container = styled.section`
             width: 100%;
             height: calc(100% - 30px);
             padding: 0 13px;
-            overflow: scroll;
+            overflow-y: scroll;
             
             .registro{
                 width: 100%;

@@ -66,6 +66,7 @@ function TelaLogin() {
                 }
                 if(typeof(err.response.data) !== 'object' && typeof(err.response.data) !== 'string'){
                     swal(`Status: ${err.response.status}! Erro ao fazer login!`);
+                    limparDados();
                 }
             }, 1000);
         });

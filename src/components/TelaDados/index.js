@@ -119,6 +119,7 @@ function TelaDados() {
                 if(typeof(err.response.data) !== 'object' && typeof(err.response.data) !== 'string'){
                     swal(`Status: ${err.response.status}! Erro ao fazer postar dados de 
                     ${entradaSaida ? entradaSaida : localStorage.getItem('info')}!`);
+                    limparDados();
                 }
             }, 1000);
         });

@@ -56,6 +56,7 @@ function TelaCadastro() {
                 }
                 if(typeof(err.response.data) !== 'object' && typeof(err.response.data) !== 'string'){
                     swal(`Status: ${err.response.status}! Erro ao cadastrar usuário!`);
+                    limparDados();
                 }
             } , 1000);
         });
