@@ -51,6 +51,28 @@ export const Container = styled.section`
             height: calc(100% - 30px);
             padding: 0 13px;
             overflow-y: scroll;
+
+            ::-webkit-scrollbar{
+                width: 8px;
+            }
+
+            ::-webkit-scrollbar-track{
+                background: #f1f1f1;
+                border-radius: 30px;
+                -webkit-border-radius: 30px;
+                -moz-border-radius: 30px;
+                -ms-border-radius: 30px;
+                -o-border-radius: 30px;
+            }
+
+            ::-webkit-scrollbar-thumb{
+                background: #D3D3D3;
+                border-radius: 30px;
+                -webkit-border-radius: 30px;
+                -moz-border-radius: 30px;
+                -ms-border-radius: 30px;
+                -o-border-radius: 30px;
+            }
             
             .registro{
                 width: 100%;
