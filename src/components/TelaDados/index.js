@@ -86,7 +86,7 @@ function TelaDados() {
             }
         };
 
-        if(!endpoint || entradaSaida === null || localStorage.getItem('info') === null){
+        if(!endpoint || entradaSaida === null || localStorage.getItem('info') === null || tokenUsuario === null || localStorage.getItem('token') === null){
             swal('Não foi possível realizar a operação, faça login novamente!');
             setTimeout(() => { 
                 navigate('/login'); 
