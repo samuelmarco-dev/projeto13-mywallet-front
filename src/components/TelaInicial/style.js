@@ -44,7 +44,13 @@ export const Container = styled.section`
         margin-bottom: 20px;
 
         svg{
+            width: 100%;
+            height: 100%;
             margin-top: 30px;
+            display: inline-block;
+            justify-content: center;
+            align-items: center;
+
             textPath{
                 font-family: 'Saira Stencil One', cursive;
                 font-size: 39px;

@@ -197,4 +197,11 @@ export const Container = styled.section`
             font-size: 30px;
         }
     }
+
+    @media (min-width: 768px) {
+        main nav .registro p{
+            width: auto;
+            max-width: 85%;
+        }
+    }
 `;
