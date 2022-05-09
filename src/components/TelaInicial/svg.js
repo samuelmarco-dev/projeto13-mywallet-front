@@ -1,6 +1,6 @@
 function AnimacaoSvg() {
     return ( 
-        <svg width="100%" height="100%" viewBox="-10 0 700 500">
+        <svg width="100%" height="100%" viewBox="-10 -50 700 500">
             <path id="path">
                     <animate attributeName="d" from="m0,110 h0" to="m0,110 h1100" dur="6.8s" begin="0s" repeatCount="indefinite"/>
                 </path>
