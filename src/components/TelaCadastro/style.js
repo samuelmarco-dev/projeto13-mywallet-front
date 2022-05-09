@@ -29,6 +29,11 @@ export const Container = styled.section`
         padding: 0 23px;
     }
 
+    form{
+        width: 100%;
+        height: auto;
+    }
+
     .inputs{
         width: 100%;
         height: auto;
