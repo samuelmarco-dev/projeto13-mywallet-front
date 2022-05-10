@@ -36,7 +36,7 @@ function TelaLogin() {
         setDisable(true);
         setLoading(true);
 
-        const promise = axios.post(`${process.env.REACT_APP_API}sign-in`, dadosLogin);
+        const promise = axios.post(`${process.env.REACT_APP_API}/sign-in`, dadosLogin);
         promise.then((response)=>{
             setTimeout(() => {
                 const { data } = response;

@@ -57,7 +57,7 @@ function TelaCarteira() {
                     email: emailUsuario ? emailUsuario : localStorage.getItem('email')
                 }
         };
-        axios.get(`${process.env.REACT_APP_API}wallet`, objConfig)
+        axios.get(`${process.env.REACT_APP_API}/wallet`, objConfig)
         .then(res => {
             setDadosCarteira(res.data);
         }).catch(err => {

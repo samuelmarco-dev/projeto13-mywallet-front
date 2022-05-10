@@ -34,7 +34,7 @@ function TelaCadastro() {
         setDisable(true);
         setLoading(true);
 
-        const promise = axios.post(`${process.env.REACT_APP_API}sign-up`, objetoCadastro);
+        const promise = axios.post(`${process.env.REACT_APP_API}/sign-up`, objetoCadastro);
         promise.then((response) => {
             setTimeout(() => {
                 swal(`Status: ${response.status}! Cadastro realizado com sucesso!`); 

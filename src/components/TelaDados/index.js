@@ -69,10 +69,10 @@ function TelaDados() {
         let endpoint = null;
         
         if(entradaSaida === 'entrada' || localStorage.getItem('item') === 'entrada'){
-            endpoint = `${process.env.REACT_APP_API}introduce-entry`;
+            endpoint = `${process.env.REACT_APP_API}/introduce-entry`;
         }
         if(entradaSaida === 'saida' || localStorage.getItem('item') === 'saida'){
-            endpoint = `${process.env.REACT_APP_API}introduce-exit`;
+            endpoint = `${process.env.REACT_APP_API}/introduce-exit`;
         }
 
         const objetoReceita = {
