@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import dotenv from "dotenv";
 
 import ContextoEntradaSaida from "../context/EntradaSaida.js";
 import ContextoDadosUsuario from "../context/DadosUsuario.js";
@@ -10,7 +11,8 @@ import Botao from "../utils/Botao.js";
 import swal from "sweetalert";
 
 import { ThreeDots } from 'react-loader-spinner';
-import { Container } from "./style.js"
+import { Container } from "./style.js";
+dotenv.config();
 
 function TelaDados() {
     const arrayInputs = ['Valor', 'Descrição'];
@@ -67,10 +69,10 @@ function TelaDados() {
         let endpoint = null;
         
         if(entradaSaida === 'entrada' || localStorage.getItem('item') === 'entrada'){
-            endpoint = 'http://localhost:5000/introduce-entry';
+            endpoint = `${process.env.REACT_APP_API}introduce-entry`;
         }
         if(entradaSaida === 'saida' || localStorage.getItem('item') === 'saida'){
-            endpoint = 'http://localhost:5000/introduce-exit';
+            endpoint = `${process.env.REACT_APP_API}introduce-exit`;
         }
 
         const objetoReceita = {

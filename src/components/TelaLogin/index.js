@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import dotenv from 'dotenv';
 
 import ContextoDadosUsuario from "../context/DadosUsuario";
 import ContextoEntradaSaida from "../context/EntradaSaida";
@@ -11,6 +12,7 @@ import Paragrafo from "../utils/Paragrafo";
 
 import { ThreeDots } from 'react-loader-spinner';
 import { Container } from "./style.js";
+dotenv.config();
 
 function TelaLogin() {
     const arrayInputs = ['E-mail', 'Senha'];
@@ -34,7 +36,7 @@ function TelaLogin() {
         setDisable(true);
         setLoading(true);
 
-        const promise = axios.post('http://localhost:5000/sign-in', dadosLogin);
+        const promise = axios.post(`${process.env.REACT_APP_API}sign-in`, dadosLogin);
         promise.then((response)=>{
             setTimeout(() => {
                 const { data } = response;

@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import dotenv from 'dotenv';
 
 import { IoIosLogOut } from "react-icons/io";
 import { IoIosAddCircleOutline } from "react-icons/io";
@@ -10,7 +11,8 @@ import ContextoEntradaSaida from "../context/EntradaSaida.js";
 import ContextoDadosUsuario from "../context/DadosUsuario.js";
 
 import swal from "sweetalert";
-import { Container } from "./style.js"
+import { Container } from "./style.js";
+dotenv.config();
 
 function TelaCarteira() {
     let saldo = 0;
@@ -55,7 +57,7 @@ function TelaCarteira() {
                     email: emailUsuario ? emailUsuario : localStorage.getItem('email')
                 }
         };
-        axios.get('http://localhost:5000/wallet', objConfig)
+        axios.get(`${process.env.REACT_APP_API}wallet`, objConfig)
         .then(res => {
             setDadosCarteira(res.data);
         }).catch(err => {

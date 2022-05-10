@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import dotenv from 'dotenv';
 
 import Botao from "../utils/Botao.js";
 import Paragrafo from "../utils/Paragrafo.js";
@@ -8,6 +9,7 @@ import swal from 'sweetalert';
 
 import { ThreeDots } from 'react-loader-spinner';
 import { Container } from "./style.js";
+dotenv.config();
 
 function TelaCadastro() {
     const arrayInputs = ['Nome', 'E-mail', 'Senha', 'Confirme a senha'];
@@ -32,7 +34,7 @@ function TelaCadastro() {
         setDisable(true);
         setLoading(true);
 
-        const promise = axios.post('http://localhost:5000/sign-up', objetoCadastro);
+        const promise = axios.post(`${process.env.REACT_APP_API}sign-up`, objetoCadastro);
         promise.then((response) => {
             setTimeout(() => {
                 swal(`Status: ${response.status}! Cadastro realizado com sucesso!`); 
