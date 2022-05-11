@@ -143,12 +143,12 @@ export const Container = styled.section`
                 line-height: 20px;
                 letter-spacing: 0em;
                 text-align: right;
-                
-                .positivo{color: #03AC00;}
-                .negativo{color: #C70000;}
             }
         }
     }
+    
+   .positivo{color: #03AC00;}
+   .negativo{color: #C70000;}
 
     footer{
         width: 100%;
