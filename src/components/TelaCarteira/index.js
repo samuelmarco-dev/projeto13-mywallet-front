@@ -142,7 +142,7 @@ function TelaCarteira() {
                     </nav>
                     <p className="result">
                         <strong className="saldo">SALDO</strong>
-                        <strong className={saldo > 0 ? 'valor positivo' : 'valor negativo'}>
+                        <strong className={saldo >= 0 ? 'valor positivo' : 'valor negativo'}>
                             {saldoCarteiraUsuario(dadosCarteira)}
                         </strong>
                     </p>
